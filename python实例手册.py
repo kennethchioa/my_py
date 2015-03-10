@@ -6,7 +6,7 @@
 0 说明
 
     手册制作: 雪松 littlepy reboot
-    更新日期: 2014-12-11
+    更新日期: 2015-01-13
     欢迎系统运维加入Q群: 198173206  # 加群请回答问题
     欢迎运维开发加入Q群: 365534424  # 不定期技术分享
 
@@ -41,11 +41,11 @@
         ln -s /usr/local/python27/bin/python /usr/bin/
         python          # 查看版本
 
-    解决YUM无法使用的问题
+        解决YUM无法使用的问题
 
-       vim /usr/bin/yum 
-       首行#!/usr/bin/python 替换为老版本python  #!/usr/bin/python2.4  注意可能为2.6
-       
+           vim /usr/bin/yum 
+           首行#!/usr/bin/python 替换为老版本python  #!/usr/bin/python2.4  注意可能为2.6
+
     pip模块安装
 
         yum install python-pip            # centos安装pip
@@ -82,6 +82,13 @@
         for i in dir(os):
             print i         # 模块的方法
         help(os.path)       # 方法的帮助
+
+    python中关键字
+
+        import keyword
+        keyword.iskeyword(str)       # 字符串是否为python关键字
+        keyword.kwlist               # 返回pytho所有关键字
+        ['and', 'as', 'assert', 'break', 'class', 'continue', 'def', 'del', 'elif', 'else', 'except', 'exec', 'finally', 'for', 'from', 'global', 'if', 'import', 'in', 'is', 'lambda', 'not', 'or', 'pass', 'print', 'raise', 'return', 'try', 'while', 'with', 'yield']
 
     调试
 
@@ -411,7 +418,7 @@
                 #x = [ x.split("/") for x in line.split(":") ]  # 先冒号分割,在/分割 打印x[6][1]
                 print x[6],"\n",
             f.close() 
-        
+
         读文件2
             f = file('/etc/passwd')
             c = f.readlines()       # 读入所有文件内容,可反复读取,大文件时占用内存较大
@@ -422,25 +429,20 @@
         读文件3
             for i in open('b.txt'):   # 直接读取也可迭代,并有利于大文件读取,但不可反复读取
                 print i,
-        
+
         追加日志
             log = open('/home/peterli/xuesong','a')
             print >> log,'faaa'
             log.close()
         
         with读文件
+
             # 自动关闭文件、线程锁的自动获取和释放等
             with open('a.txt') as f:
                 for i in f:
                     print i
                 print f.read()        # 打印所有内容为字符串
                 print f.readlines()   # 打印所有内容按行分割的列表
-        
-        csv读配置文件  
-            192.168.1.5,web # 配置文件按逗号分割
-            list = csv.reader(file('a.txt'))
-            for line in list:
-                print line              #  ['192.168.1.5', 'web']
 
     内建函数
 
@@ -475,25 +477,6 @@
         zip(s,t)            # 返回一个合并后的列表  s = ['11','22']  t = ['aa','bb']  [('11', 'aa'), ('22', 'bb')]
         isinstance(object,int)    # 测试对象类型 int 
         xrange([lower,]stop[,step])            # 函数与range()类似，但xrnage()并不创建列表，而是返回一个xrange对象
-
-    字符串相关模块
-
-        string         # 字符串操作相关函数和工具
-        re             # 正则表达式
-        struct         # 字符串和二进制之间的转换
-        c/StringIO     # 字符串缓冲对象,操作方法类似于file对象
-        base64         # Base16\32\64数据编解码
-        codecs         # 解码器注册和基类
-        crypt          # 进行单方面加密
-        difflib        # 找出序列间的不同
-        hashlib        # 多种不同安全哈希算法和信息摘要算法的API
-        hma            # HMAC信息鉴权算法的python实现
-        md5            # RSA的MD5信息摘要鉴权
-        rotor          # 提供多平台的加解密服务
-        sha            # NIAT的安全哈希算法SHA
-        stringprep     # 提供用于IP协议的Unicode字符串
-        textwrap       # 文本包装和填充
-        unicodedate    # unicode数据库
 
     列表类型内建函数
 
@@ -539,18 +522,6 @@
         string.isdigit()                              # 只包含数字返回True
         string.split("分隔符")                        # 把string切片成一个列表
         ":".join(string.split())                      # 以:作为分隔符,将所有元素合并为一个新的字符串
-
-    序列类型相关的模块
-
-        array         # 一种受限制的可变序列类型,元素必须相同类型
-        copy          # 提供浅拷贝和深拷贝的能力
-        operator      # 包含函数调用形式的序列操作符 operator.concat(m,n)
-        re            # perl风格的正则表达式查找
-        StringIO      # 把长字符串作为文件来操作 如: read() \ seek()
-        cStringIO     # 把长字符串作为文件来操,作速度更快,但不能被继承
-        textwrap      # 用作包装/填充文本的函数,也有一个类
-        types         # 包含python支持的所有类型
-        collections   # 高性能容器数据类型
 
     字典内建方法
 
@@ -603,7 +574,7 @@
         obj = {'1':['4124','1241','124'],'2':['12412','142','1241']}
 
         pkl_file = open('account.pkl','wb')
-        cPickle.down(obj,pkl_file)
+        cPickle.dump(obj,pkl_file)
         pkl_file.close()
 
         pkl_file = open('account.pkl','rb')
@@ -813,44 +784,6 @@
         def add(x,y): return x+y
         reduce(add, range(1, 11))      # 结果55  是1到10的和  x的值是上一次函数返回的结果，y是列表中循环的值
 
-    re正则
-
-        compile(pattern,flags=0)          # 对正则表达式模式pattern进行编译,flags是可选标识符,并返回一个regex对象
-        match(pattern,string,flags=0)     # 尝试用正则表达式模式pattern匹配字符串string,flags是可选标识符,如果匹配成功,则返回一个匹配对象;否则返回None
-        search(pattern,string,flags=0)    # 在字符串string中搜索正则表达式模式pattern的第一次出现,flags是可选标识符,如果匹配成功,则返回一个匹配对象;否则返回None
-        findall(pattern,string[,flags])   # 在字符串string中搜索正则表达式模式pattern的所有(非重复)出现:返回一个匹配对象的列表  # pattern=u'\u4e2d\u6587' 代表UNICODE
-        finditer(pattern,string[,flags])  # 和findall()相同,但返回的不是列表而是迭代器;对于每个匹配,该迭代器返回一个匹配对象
-        split(pattern,string,max=0)       # 根据正则表达式pattern中的分隔符把字符string分割为一个列表,返回成功匹配的列表,最多分割max次(默认所有)
-        sub(pattern,repl,string,max=0)    # 把字符串string中所有匹配正则表达式pattern的地方替换成字符串repl,如果max的值没有给出,则对所有匹配的地方进行替换(subn()会返回一个表示替换次数的数值)
-        group(num=0)                      # 返回全部匹配对象(或指定编号是num的子组)
-        groups()                          # 返回一个包含全部匹配的子组的元组(如果没匹配成功,返回一个空元组)
-        
-        零宽断言
-            str = 'aaa111aaa , bbb222&, 333ccc'
-            re.compile('\d+(?=[a-z]+)').findall(str)          # 前向界定 (?=exp) 找出连续的数字并且最后一个数字跟着至少一个a-z ['111', '333']
-            re.compile(r"\d+(?![a-z]+)").findall(str)         # 前向否定界定 (?!exp)  找出连续数字，且最后一个数字后不能跟a-z  ['11', '222', '33']
-            re.compile(r"(?<=[a-z])\d+").findall(str)         # 反向界定 (?<=exp) 逆序环视 找出连续的数字，且第一个数字前面是a-z  ['111', '222']
-            re.compile(r"(?<![a-z])\d+").findall(str)         # 反向否定界定 (?<!exp) 否定逆序环视  找出连续的数字，且第一个数字前不能是a-z  ['11', '22', '333']
-            re.compile(r"(?:\d+)").findall(str)               # 无捕获的匹配 (?:exp)
-            s= 'Tom:9527 , Sharry:0003 '
-            re.match( r'(?P<name>\w+):(?P<num>\d+)' , s).group(0)   # 捕获组 <num>第二个标签变量[9527] 获取 group("num") 等同 group(2)[9527], group(0)全部[Tom:9527]   
-
-        例子
-            re.findall(r'a[be]c','123abc456eaec789')         # 返回匹配对象列表 ['abc', 'aec']
-            re.findall("(.)12[34](..)",a)                    # 取出匹配括号中内容   a='qedqwe123dsf'
-            re.search("(.)123",a ).group(1)                  # 搜索匹配的取第1个标签
-            re.match("^(1|2) *(.*) *abc$", str).group(2)     # 取第二个标签
-            re.match("^(1|2) *(.*) *abc$", str).groups()     # 取所有标签
-            re.sub('[abc]','A','alex')                       # 替换
-            for i in re.finditer(r'\d+',s):                  # 迭代
-                print i.group(),i.span()                     #
-        
-        搜索网页中UNICODE格式的中文
-            QueryAdd='http://www.anti-spam.org.cn/Rbl/Query/Result'
-            Ip='222.129.184.52'
-            s = requests.post(url=QueryAdd, data={'IP':Ip})
-            re.findall(u'\u4e2d\u56fd', s.text, re.S)
-
     编码转换
 
         a='中文'                    # 编码未定义按输入终端utf8或gbk
@@ -871,7 +804,7 @@
 
 2 常用模块
 
-    sys
+    sys             [系统操作模块]
 
         sys.argv              # 取参数列表
         sys.exit(2)           # 退出脚本返回状态 会被try截取
@@ -890,7 +823,7 @@
         sys.stdout.write("a") # 屏幕输出a 
         sys.path.insert(1, os.path.join(sys.path[0], '/opt/script/'))     # 将/opt/script/目录加入环境变量，可导入相应模块
 
-    os
+    os              [系统模块]
 
         # 相对sys模块 os模块更为底层 os._exit() try无法抓取
         os.popen('id').read()      # 执行系统命令得到返回结果
@@ -901,6 +834,7 @@
         os.getcwd()                # 当前工作路径
         os.chdir()                 # 改变当前工作目录
         os.walk('/root/')          # 递归路径
+        os.environ['HOME']         # 查看系统环境变量
         
         文件处理
             mkfifo()/mknod()       # 创建命名管道/创建文件系统节点
@@ -963,26 +897,7 @@
                 os.path.islink()           # 指定路径是否存在且为一个符号链接
                 os.path.ismount()          # 指定路径是否存在且为一个挂载点
                 os.path.samefile()         # 两个路径名是否指向同一个文件
-        
-        相关模块
-            base64              # 提供二进制字符串和文本字符串间的编码/解码操作
-            binascii            # 提供二进制和ASCII编码的二进制字符串间的编码/解码操作
-            bz2                 # 访问BZ2格式的压缩文件
-            csv                 # 访问csv文件(逗号分隔文件)
-            csv.reader(open(file))
-            filecmp             # 用于比较目录和文件
-            fileinput           # 提供多个文本文件的行迭代器
-            getopt/optparse     # 提供了命令行参数的解析/处理
-            glob/fnmatch        # 提供unix样式的通配符匹配的功能
-            gzip/zlib           # 读写GNU zip(gzip)文件(压缩需要zlib模块)
-            shutil              # 提供高级文件访问功能
-            c/StringIO          # 对字符串对象提供类文件接口
-            tarfile             # 读写TAR归档文件,支持压缩文件
-            tempfile            # 创建一个临时文件
-            uu                  # uu格式的编码和解码
-            zipfile             # 用于读取zip归档文件的工具
-            environ['HOME']     # 查看系统环境变量
-        
+
         子进程
             os.fork()    # 创建子进程,并复制父进程所有操作  通过判断pid = os.fork() 的pid值,分别执行父进程与子进程操作，0为子进程
             os.wait()    # 等待子进程结束
@@ -995,32 +910,141 @@
             curdir          # 当前工作目录的字符串名称
             pardir          # 父目录字符串名称
 
-    commands
+    commands        [执行系统命令]
     
         commands.getstatusoutput('id')       # 返回元组(状态,标准输出)
         commands.getoutput('id')             # 只返回执行的结果, 忽略返回值
         commands.getstatus('file')           # 返回ls -ld file执行的结果
-            
-    文件和目录管理
+
+    re              [perl风格正则]
+
+        compile(pattern,flags=0)          # 对正则表达式模式pattern进行编译,flags是可选标识符,并返回一个regex对象
+        match(pattern,string,flags=0)     # 尝试用正则表达式模式pattern匹配字符串string,flags是可选标识符,如果匹配成功,则返回一个匹配对象;否则返回None
+        search(pattern,string,flags=0)    # 在字符串string中搜索正则表达式模式pattern的第一次出现,flags是可选标识符,如果匹配成功,则返回一个匹配对象;否则返回None
+        findall(pattern,string[,flags])   # 在字符串string中搜索正则表达式模式pattern的所有(非重复)出现:返回一个匹配对象的列表  # pattern=u'\u4e2d\u6587' 代表UNICODE
+        finditer(pattern,string[,flags])  # 和findall()相同,但返回的不是列表而是迭代器;对于每个匹配,该迭代器返回一个匹配对象
+        split(pattern,string,max=0)       # 根据正则表达式pattern中的分隔符把字符string分割为一个列表,返回成功匹配的列表,最多分割max次(默认所有)
+        sub(pattern,repl,string,max=0)    # 把字符串string中所有匹配正则表达式pattern的地方替换成字符串repl,如果max的值没有给出,则对所有匹配的地方进行替换(subn()会返回一个表示替换次数的数值)
+        group(num=0)                      # 返回全部匹配对象(或指定编号是num的子组)
+        groups()                          # 返回一个包含全部匹配的子组的元组(如果没匹配成功,返回一个空元组)
+        
+        零宽断言
+            str = 'aaa111aaa , bbb222&, 333ccc'
+            re.compile('\d+(?=[a-z]+)').findall(str)          # 前向界定 (?=exp) 找出连续的数字并且最后一个数字跟着至少一个a-z ['111', '333']
+            re.compile(r"\d+(?![a-z]+)").findall(str)         # 前向否定界定 (?!exp)  找出连续数字，且最后一个数字后不能跟a-z  ['11', '222', '33']
+            re.compile(r"(?<=[a-z])\d+").findall(str)         # 反向界定 (?<=exp) 逆序环视 找出连续的数字，且第一个数字前面是a-z  ['111', '222']
+            re.compile(r"(?<![a-z])\d+").findall(str)         # 反向否定界定 (?<!exp) 否定逆序环视  找出连续的数字，且第一个数字前不能是a-z  ['11', '22', '333']
+            re.compile(r"(?:\d+)").findall(str)               # 无捕获的匹配 (?:exp)
+            s= 'Tom:9527 , Sharry:0003 '
+            re.match( r'(?P<name>\w+):(?P<num>\d+)' , s).group(0)   # 捕获组 <num>第二个标签变量[9527] 获取 group("num") 等同 group(2)[9527], group(0)全部[Tom:9527]   
+
+        例子
+            re.findall(r'a[be]c','123abc456eaec789')         # 返回匹配对象列表 ['abc', 'aec']
+            re.findall("(.)12[34](..)",a)                    # 取出匹配括号中内容   a='qedqwe123dsf'
+            re.search("(.)123",a ).group(1)                  # 搜索匹配的取第1个标签
+            re.match("^(1|2) *(.*) *abc$", str).group(2)     # 取第二个标签
+            re.match("^(1|2) *(.*) *abc$", str).groups()     # 取所有标签
+            re.sub('[abc]','A','alex')                       # 替换
+            for i in re.finditer(r'\d+',s):                  # 迭代
+                print i.group(),i.span()                     #
+        
+        搜索网页中UNICODE格式的中文
+            QueryAdd='http://www.anti-spam.org.cn/Rbl/Query/Result'
+            Ip='222.129.184.52'
+            s = requests.post(url=QueryAdd, data={'IP':Ip})
+            re.findall(u'\u4e2d\u56fd', s.text, re.S)
+
+    csv             [访问csv逗号分隔的文件]
+
+        csv读配置文件  
+
+            192.168.1.5,web # 配置文件按逗号分割
+            list = csv.reader(file('a.csv'))
+            for line in list:
+                print line              #  ['192.168.1.5', 'web']
+
+        csv配合with读文件
+
+            import csv
+            with open('some.csv', 'rb') as f:
+                reader = csv.reader(f)
+                for row in reader:
+                    print row
+
+        csv配合with写文件
+
+            import csv
+            with open('some.csv', 'wb') as f:
+                writer = csv.writer(f)
+                writer.writerow(['Column1', 'Column2', 'Column3'])    # 写单行 列表
+                writer.writerows([range(3) for i in range(5)])        # 写多行 列表套列表
+
+    shutil          [提供高级文件访问功能]
     
         import shutil
         shutil.copyfile('data.db', 'archive.db')             # 拷贝文件
         shutil.move('/build/executables', 'installdir')      # 移动文件或目录
 
-    文件通配符
+    dircache        [目录文件列表缓存]
+
+        import dircache
+        a = dircache.listdir('/data/xuesong')        # 列出目录下所有的文件和目录
+        dircache.annotate('/data/xuesong', a)        # 判断指定目录下的是文件还是目录,目录则后面加/ 文件或不存在则不改变
+
+    glob            [文件通配符]
 
         import glob
         glob.glob('*.py')    # 查找当前目录下py结尾的文件
 
-    随机模块
+    random          [随机模块]
     
         import random
         random.choice(['apple', 'pear', 'banana'])   # 随机取列表一个参数
         random.sample(xrange(100), 10)  # 不重复抽取10个
         random.random()                 # 随机浮点数
         random.randrange(6)             # 随机整数范围
-    
-    发送邮件
+
+    tempfile        [创建临时文件]
+
+        import os
+        import tempfile
+         
+        temp = tempfile.TemporaryFile()                # 定义一个临时文件对象
+        try:
+            temp.write('Some data')                    # 写入数据
+            temp.writelines(['first\n', 'second\n'])   # 写入多行
+            temp.seek(0)                               # 写入
+             
+            print temp.read()                          # 读取
+
+            for line in temp:                          # 循环读取每一行
+                print line.rstrip()
+        finally:
+            temp.close()                               # 关闭后删除临时文件
+
+
+
+        # 创建临时目录
+        import os
+        import tempfile
+         
+        directory_name = tempfile.mkdtemp()
+        print directory_name                            # 打印临时目录地址 /var/folders...
+        # Clean up the directory yourself
+        os.removedirs(directory_name)                   # 创建临时目录需要手动删除
+
+
+        # 控制临时文件名
+        import tempfile
+         
+        temp = tempfile.NamedTemporaryFile(suffix='_suffix',  prefix='prefix_',  dir='/tmp')
+        try:
+            print 'temp:', temp
+            print 'temp.name:', temp.name
+        finally:
+            temp.close()
+
+    email           [发送邮件]
 
         发送邮件内容
 
@@ -1108,74 +1132,73 @@
             else:
                 print "发送失败"
 
-    解压缩
+    gzip            [解压缩gzip 删除原文件]
 
-        gzip压缩
+        #压缩gzip
+        import gzip
+        f_in = open('file.log', 'rb')
+        f_out = gzip.open('file.log.gz', 'wb')
+        f_out.writelines(f_in)
+        f_out.close()
+        f_in.close()
 
-            import gzip
-            f_in = open('file.log', 'rb')
-            f_out = gzip.open('file.log.gz', 'wb')
-            f_out.writelines(f_in)
-            f_out.close()
-            f_in.close()
+        #压缩gzip
+        File = 'xuesong_18.log'
+        g = gzip.GzipFile(filename="", mode='wb', compresslevel=9, fileobj=open((r'%s.gz' %File),'wb'))
+        g.write(open(r'%s' %File).read())
+        g.close()
 
-        gzip压缩1
+        #解压gzip
+        g = gzip.GzipFile(mode='rb', fileobj=open((r'xuesong_18.log.gz'),'rb'))
+        open((r'xuesong_18.log'),'wb').write(g.read())
 
-            File = 'xuesong_18.log'
-            g = gzip.GzipFile(filename="", mode='wb', compresslevel=9, fileobj=open((r'%s.gz' %File),'wb'))
-            g.write(open(r'%s' %File).read())
-            g.close()
+    tarfile         [归档压缩tar.gz 保留原文件]
 
-        gzip解压
+        # 压缩tar.gz
+        import os
+        import tarfile
+        tar = tarfile.open("/tmp/tartest.tar.gz","w:gz")   # 创建压缩包名
+        for path,dir,files in os.walk("/tmp/tartest"):     # 递归文件目录
+            for file in files:
+                fullpath = os.path.join(path,file)
+                tar.add(fullpath)                          # 创建压缩包
+        tar.close()
 
-            g = gzip.GzipFile(mode='rb', fileobj=open((r'xuesong_18.log.gz'),'rb'))
-            open((r'xuesong_18.log'),'wb').write(g.read())
+        # 解压tar.gz
+        import tarfile
+        tar = tarfile.open("/tmp/tartest.tar.gz")
+        #tar.extract("/tmp")                               # 全部解压到指定路径
+        names = tar.getnames()                             # 包内文件名
+        for name in names:
+            tar.extract(name,path="./")                    # 解压指定文件
+        tar.close()
 
-        压缩tar.gz
+    zipfile         [解压缩zip 最大2G]
 
-            import os
-            import tarfile
-            tar = tarfile.open("/tmp/tartest.tar.gz","w:gz")   # 创建压缩包名
-            for path,dir,files in os.walk("/tmp/tartest"):     # 递归文件目录
-                for file in files:
-                    fullpath = os.path.join(path,file)
-                    tar.add(fullpath)                          # 创建压缩包
-            tar.close()
+        # 压缩zip
+        import zipfile,os
+        f = zipfile.ZipFile('filename.zip', 'w' ,zipfile.ZIP_DEFLATED)    # ZIP_STORE 为默认表不压缩. ZIP_DEFLATED 表压缩
+        #f.write('file1.txt')                              # 将文件写入压缩包
+        for path,dir,files in os.walk("tartest"):          # 递归压缩目录
+            for file in files:
+                f.write(os.path.join(path,file))           # 将文件逐个写入压缩包         
+        f.close()
 
-        解压tar.gz
-            
-            import tarfile
-            tar = tarfile.open("/tmp/tartest.tar.gz")
-            #tar.extract("/tmp")                           # 全部解压到指定路径
-            names = tar.getnames()                         # 包内文件名
-            for name in names:
-                tar.extract(name,path="./")                # 解压指定文件
-            tar.close()
-
-        zip压缩
-            import zipfile,os
-            f = zipfile.ZipFile('filename.zip', 'w' ,zipfile.ZIP_DEFLATED)    # ZIP_STORE 为默认表不压缩. ZIP_DEFLATED 表压缩
-            #f.write('file1.txt')                              # 将文件写入压缩包
-            for path,dir,files in os.walk("tartest"):          # 递归压缩目录
-                for file in files:
-                    f.write(os.path.join(path,file))           # 将文件逐个写入压缩包         
+        # 解压zip
+        if zipfile.is_zipfile('filename.zip'):             # 判断一个文件是不是zip文件
+            f = zipfile.ZipFile('filename.zip')
+            for file in f.namelist():                      # 返回文件列表
+                f.extract(file, r'/tmp/')                  # 解压指定文件
+            #f.extractall()                                # 解压全部
             f.close()
 
-        zip解压
-            if zipfile.is_zipfile('filename.zip'):        # 判断一个文件是不是zip文件
-                f = zipfile.ZipFile('filename.zip')
-                for file in f.namelist():                 # 返回文件列表
-                    f.extract(file, r'/tmp/')             # 解压指定文件
-                #f.extractall()                           # 解压全部
-                f.close()
-
-    时间
+    time/datetime   [时间]
 
         import time
+        time.strftime('%Y%m%d_%H%M')         # 格式化时间
         time.time()                          # 时间戳[浮点]
-        time.localtime()[1] - 1              # 上个月
         int(time.time())                     # 时间戳[整s]
-        tomorrow.strftime('%Y%m%d_%H%M')     # 格式化时间
+        time.localtime()[1] - 1              # 上个月
         time.strftime('%Y-%m-%d_%X',time.localtime( time.time() ) )              # 时间戳转日期
         time.mktime(time.strptime('2012-03-28 06:53:40', '%Y-%m-%d %H:%M:%S'))   # 日期转时间戳
 
@@ -1213,7 +1236,8 @@
             d3 = d1 + datetime.timedelta(hours=10)
             d3.ctime()
 
-    optparse        [参数]
+    optparse        [解析参数及标准提示]
+
         import os, sys
         import time
         import optparse
@@ -1245,11 +1269,67 @@
         if __name__ == '__main__':
             main()
 
-    md5 
+    getopt          [解析参数]
+    
+        import sys,os
+        import getopt
+
+        try:
+            options,argsErr = getopt.getopt(sys.argv[1:],"hu:c:",["help","user=","cmd="])    # 中间短参数，后面长参数对应. 不带:或=代表不带参数
+        except getopt.GetoptError:
+            print "Unknown parameters,More info with: %s -h" %(sys.argv[0])
+            sys.exit(2)
+        if argsErr != []:
+            print "Unknown parameters,More info with: %s -h" %(sys.argv[0])
+            sys.exit(2)
+
+        for o,a in  options:
+            if o in ("-h","--help"):
+                print '''Usage: python te.py -u user -c "cmd -options" '''
+                sys.exit(2)
+            if o in ("-u","--user"):
+                user = a
+            if o in ("-c","--cmd"):
+                cmd = a
+        print user,cmd
+
+    argparse        [命令行选项和参数解析库]
+
+        import argparse
+        parser = argparse.ArgumentParser( prog='usage_name', description='开头打印', epilog="结束打印")
+        parser.add_argument('-f', '--foo', help='foo help', action='append')      # 可选参数,如使用此参数必须传值 action='store_true' 不加参数为True  action='append' 多个参数可叠加为列表
+        parser.add_argument('--aa', type=int, default=42, help='aa!')             # type规定参数类型,default设置默认值
+        parser.add_argument('bar', nargs='*', default=[1, 2, 3], help='BAR!')     # 位置参数 必须传递  nargs=2 需要传递2个参数
+        parser.add_argument('args', nargs=argparse.REMAINDER)                     # 剩余参数收集到列表
+        parser.print_help()                                                       # 打印使用帮助
+        #parser.parse_args('BAR --foo FOO'.split())                               # 设置位置参数
+        args = parser.parse_args()                                                # 全部的值
+        parser.get_default('foo')                                                 # 获取
+
+        python a.py --foo ww  --aa 40 xuesong 27                                  # 执行此脚本
+
+    base64          [编码]
+
+        # 简单但容易被直接破解
+        import base64
+        s1 = base64.encodestring('hello world')
+        s2 = base64.decodestring(s1)
+
+    uu              [对文件uu编码]
+
+        import uu
+        uu.encode('in_file','out_file')       # 编码
+        uu.decode('in_file','out_file')       # 解码
+
+    binascii        [ascii和二进制编码转换]
+
+    md5             [单向MD5加密]
 
         import md5
         m = md5.new('123456').hexdigest()
-        
+
+    hashlib         [hash算法库]
+
         import hashlib
         m = hashlib.md5()
         m.update("Nobody inspects")    # 使用update方法对字符串md5加密
@@ -1258,7 +1338,9 @@
         hashlib.new("md5", "string").hexdigest()               # 对字符串加密
         hashlib.new("md5", open("file").read()).hexdigest()    # 查看文件MD5值
 
-    crypt           [单项加密]
+        hashlib.sha224("Nobody inspects the spammish repetition").hexdigest()       # 几种hash算法 sha1  sha224  sha256  sha384  ha512
+
+    crypt           [单向加密]
 
         import crypt
         import random,string
@@ -1269,14 +1351,7 @@
         print salt
         print crypt.crypt('bananas',salt)
 
-    base64          [加密解密]
-
-        # 简单但容易被直接破解
-        import base64
-        s1 = base64.encodestring('hello world')
-        s2 = base64.decodestring(s1)
-
-    pycrypto
+    pycrypto        [加密]
 
         # https://github.com/dlitz/pycrypto
         SHA256  # 不可逆散列算法加密
@@ -1285,7 +1360,7 @@
             hash.update('message')
             hash.digest()
             
-        AES    # 可逆加密,需要密钥
+        AES     # 可逆加密,需要密钥
             from Crypto.Cipher import AES
             obj = AES.new('This is a key123', AES.MODE_CBC, 'This is an IV456')
             message = "The answer is no"
@@ -1331,7 +1406,7 @@
 
         encrypted = pub_key.public_encrypt(message, RSA.pkcs1_padding)        # 加密
         decrypted = priv_key.private_decrypt(encrypted, RSA.pkcs1_padding)    # 解密
-         
+
         print decrypted
 
     getpass         [隐藏输入密码]
@@ -1339,12 +1414,17 @@
         import getpass
         passwd=getpass.getpass()
 
-    string
+    string          [字符串类]
 
         import string
-        string.lowercase       # a-z小写
+        string.ascii_letters   # a-zA-Z  ascii的不受语言系统环境变化
+        string.ascii_lowercase # a-z
+        string.letters         # a-zA-Z  受系统语言环境变化影响
+        string.lowercase       # a-z 
         string.uppercase       # A-Z大小
         string.digits          # 0-9
+        string.printable       # 所有字符
+        string.whitespace      # 空白字符
 
     paramiko        [ssh客户端]
 
@@ -1847,7 +1927,7 @@
                     elif i == 'help' or i == 'h' or i == '?':
                         Help()
 
-    pysnmp
+    pysnmp          [snmp客户端]
     
         #!/usr/bin/python
         from pysnmp.entity.rfc3413.oneliner import cmdgen
@@ -1859,7 +1939,7 @@
 
         print varBinds[3][0][1]
 
-    性能测试
+    pstats          [源码性能分析测试]
 
         import profile
         import pstats
@@ -1995,6 +2075,344 @@
             format=%(name)-12s: %(levelname)-8s %(message)s
             datefmt=
 
+    ConfigParser    [配置解析]
+    
+        写入配置文件
+    
+            import ConfigParser
+            config = ConfigParser.RawConfigParser()
+            config.add_section('Section1')                          # 添加配置文件的块 [name]
+            config.set('Section1', 'an_int', '15')                  # 针对块设置配置参数和值
+            config.set('Section1', 'a_bool', 'true')
+            config.set('Section1', 'a_float', '3.1415')
+            config.set('Section1', 'baz', 'fun')
+            config.set('Section1', 'bar', 'Python')
+            config.set('Section1', 'foo', '%(bar)s is %(baz)s!')
+            with open('example.cfg', 'wb') as configfile:           # 指定配置文件路径
+                config.write(configfile)                            # 写入配置文件
+
+        读取配置文件
+
+            import ConfigParser
+            config = ConfigParser.RawConfigParser()
+            config.read('example.cfg')                              # 读取配置文件
+            a_float = config.getfloat('Section1', 'a_float')        # 获取配置文件参数对应的浮点值,如参数值类型不对则报ValueError
+            an_int = config.getint('Section1', 'an_int')            # 获取配置文件参数对应的整数值,可直接进行计算
+            print a_float + an_int
+            if config.getboolean('Section1', 'a_bool'):             # 根据配置文件参数值是否为真
+                print config.get('Section1', 'foo')                 # 再获取依赖的配置参数 get获取后值为字符串
+            print config.get('Section1', 'foo', 0)                  # 获取配置文件参数的同时加载变量[配置文件中的参数]
+            print config.get('Section1', 'foo', 1)                  # 获取配置文件参数 原始值不做任何改动 不使用变量
+            config.remove_option('Section1', 'bar')                 # 删除读取配置文件获取bar的值
+            config.remove_option('Section1', 'baz')
+            print config.get('Section1', 'foo', 0, {'bar': 'str1', 'baz': 'str1'})    # 读取配置参数的同时设置变量的值
+    
+    
+        import ConfigParser
+        import io
+
+        sample_config = """
+        [mysqld]
+        user = mysql
+        pid-file = /var/run/mysqld/mysqld.pid
+        skip-external-locking
+        old_passwords = 1
+        skip-bdb
+        skip-innodb
+        """
+        config = ConfigParser.RawConfigParser(allow_no_value=True)
+        config.readfp(io.BytesIO(sample_config))
+        config.get("mysqld", "user")
+
+    ftplib          [ftp客户端]
+
+        from ftplib import FTP
+        ftp = FTP('ftp.debian.org')     # 连接ftp地址   FTP(host,port,timeout)
+        ftp.login()                     # 使用默认anonymous登录  login(user,passwd) 
+        ftp.cwd('debian')               # 切换到目录debian
+        ftp.retrlines('LIST')           # 打印目录列表
+        ftp.retrbinary('RETR README', open('README', 'wb').write)       # 下载文件写到本地
+        ftp.delete('filename')          # 删除ftp中文件
+        ftp.mkd('dirname')              # 在ftp上创建目录
+        ftp.size('filename')            # 查看文件大小
+        ftp.quit() 
+
+    difflib         [对象比较]
+
+        import difflib
+        s1 = ['bacon\n', 'eggs\n', 'ham\n', 'guido\n']
+        s2 = ['python\n', 'eggy\n', 'hamster\n', 'guido\n']
+        for line in difflib.context_diff(s1, s2, fromfile='txt-s1', tofile='txt-s2'):    # 两字列表比较差异
+            sys.stdout.write(line)
+
+        difflib.get_close_matches('appel', ['ape', 'apple', 'peach', 'puppy'])           # 模糊匹配 匹配列表与字符串相似的值，越相似越靠前
+
+    heapq           [优先队列算法]
+
+        from heapq import *
+        h = []
+        heappush(h, (5, 'write code'))          # 放入队列
+        heappush(h, (7, 'release product'))
+        heappush(h, (1, 'write spec'))
+        heappush(h, (3, 'create tests'))
+        heappop(h)                              # 从队列取出 第一次是1
+
+        from heapq import *
+        def heapsort(iterable):
+            h = []
+            for value in iterable:
+                heappush(h, value)
+            return [heappop(h) for i in range(len(h))]
+
+        heapsort([1, 3, 5, 7, 9, 2, 4, 6, 8, 0])
+
+    linecache       [随机读取指定行]
+
+        import linecache
+        linecache.getline('/etc/passwd', 4)
+
+    json            [数据交换格式]
+
+        #!/usr/bin/python
+        import json
+
+        #json file temp.json
+        #{ "name":"00_sample_case1", "description":"an example."}
+
+        f = file("temp.json");
+        s = json.load(f)        # 直接读取json文件
+        print s
+        f.close
+
+        d = {"a":1}
+        j=json.dumps(d)  # 字典转json
+        json.loads(j)    # json转字典
+        
+        s = json.loads('{"name":"test", "type":{"name":"seq", "parameter":["1", "2"]}}')
+        print type(s)    # dic
+        print s
+        print s.keys()
+        print s["type"]["parameter"][1]
+        
+        json.dumps({'ret':'cmd_ret0', 'out':'cmd_ret1'}, separators=(',', ':'))    # 紧凑的json格式,去掉空格
+
+    filecmp         [文件目录比较]
+
+        filecmp.cmp('/etc/passwd', '/etc/passwd')     # 比较两文件是否一致
+
+        # 比较两目录下文件是否一致
+        from filecmp import dircmp
+        def print_diff_files(dcmp):
+            for name in dcmp.diff_files:
+                print "diff_file %s found in %s and %s" % (name, dcmp.left, dcmp.right)
+            for sub_dcmp in dcmp.subdirs.values():
+                print_diff_files(sub_dcmp)
+
+        dcmp = dircmp('dir1', 'dir2') 
+        print_diff_files(dcmp) 
+
+    errno           [符号错误码]
+
+        https://docs.python.org/2/library/errno.html#module-errno
+        
+        import errno
+
+        try:
+            fp = open("no.such.file")
+        except IOError, (error, message):
+            if error == errno.ENOENT:
+                print "no such file"
+            elif error == errno.EPERM:
+                print "permission denied"
+            else:
+                print message
+
+    Exceptions      [标准异常类]
+
+        # 详见官网 不需要导入
+        https://docs.python.org/2/library/exceptions.html#module-exceptions
+
+    ctypes          [调用C的动态库]
+        
+        提供和C语言兼容的数据类型,也可调用C的动态库
+
+        http://blog.csdn.net/linda1000/article/details/12623527
+        http://www.cnblogs.com/wuchang/archive/2010/04/04/1704456.html
+        http://www.ibm.com/developerworks/cn/linux/l-cn-pythonandc/
+
+    daemon          [守护进程]
+
+        daemon.py
+
+            # 创建守护进程的模块
+            #!/usr/bin/env python
+
+            import sys, os, time, atexit
+            from signal import SIGTERM
+
+            class Daemon:
+                """
+                A generic daemon class.
+               
+                Usage: subclass the Daemon class and override the run() method
+                """
+                def __init__(self, pidfile='nbMon.pid', stdin='/dev/null', stdout='nbMon.log', stderr='nbMon.log'):
+                    self.stdin = stdin
+                    self.stdout = stdout
+                    self.stderr = stderr
+                    self.pidfile = pidfile
+               
+                def daemonize(self):
+                    """
+                    do the UNIX double-fork magic, see Stevens' "Advanced
+                    Programming in the UNIX Environment" for details (ISBN 0201563177)
+                    http://www.erlenstar.demon.co.uk/unix/faq_2.html#SEC16
+                    """
+                    try:
+                        pid = os.fork()
+                        if pid > 0:
+                            # exit first parent
+                            sys.exit(0)
+                    except OSError, e:
+                        sys.stderr.write("fork #1 failed: %d (%s)\n" % (e.errno, e.strerror))
+                        sys.exit(1)
+               
+                    # decouple from parent environment
+                    #os.chdir("/")
+                    os.setsid()
+                    os.umask(0)
+               
+                    # do second fork
+                    try:
+                        pid = os.fork()
+                        if pid > 0:
+                            # exit from second parent
+                            sys.exit(0)
+                    except OSError, e:
+                        sys.stderr.write("fork #2 failed: %d (%s)\n" % (e.errno, e.strerror))
+                        sys.exit(1)
+               
+                    # redirect standard file descriptors
+                    sys.stdout.flush()
+                    sys.stderr.flush()
+                    si = file(self.stdin, 'r')
+                    so = file(self.stdout, 'a+')
+                    se = file(self.stderr, 'a+', 0)
+                    os.dup2(si.fileno(), sys.stdin.fileno())
+                    os.dup2(so.fileno(), sys.stdout.fileno())
+                    os.dup2(se.fileno(), sys.stderr.fileno())
+               
+                    # write pidfile
+                    atexit.register(self.delpid)
+                    pid = str(os.getpid())
+                    file(self.pidfile,'w+').write("%s\n" % pid)
+               
+                def delpid(self):
+                    os.remove(self.pidfile)
+
+                def start(self):
+                    """
+                    Start the daemon
+                    """
+                    # Check for a pidfile to see if the daemon already runs
+                    try:
+                        pf = file(self.pidfile,'r')
+                        pid = int(pf.read().strip())
+                        pf.close()
+                    except IOError:
+                        pid = None
+               
+                    if pid:
+                        message = "pidfile %s already exist. Daemon already running?\n"
+                        sys.stderr.write(message % self.pidfile)
+                        sys.exit(1)
+                   
+                    # Start the daemon
+                    self.daemonize()
+                    self.run()
+
+                def stop(self):
+                    """
+                    Stop the daemon
+                    """
+                    # Get the pid from the pidfile
+                    try:
+                        pf = file(self.pidfile,'r')
+                        pid = int(pf.read().strip())
+                        pf.close()
+                    except IOError:
+                        pid = None
+               
+                    if not pid:
+                        message = "pidfile %s does not exist. Daemon not running?\n"
+                        sys.stderr.write(message % self.pidfile)
+                        return # not an error in a restart
+
+                    # Try killing the daemon process       
+                    try:
+                        while 1:
+                            os.kill(pid, SIGTERM)
+                            time.sleep(0.1)
+                    except OSError, err:
+                        err = str(err)
+                        if err.find("No such process") > 0:
+                            if os.path.exists(self.pidfile):
+                                os.remove(self.pidfile)
+                        else:
+                            print str(err)
+                            sys.exit(1)
+
+                def restart(self):
+                    """
+                    Restart the daemon
+                    """
+                    self.stop()
+                    self.start()
+
+                def run(self):
+                    """
+                    You should override this method when you subclass Daemon. It will be called after the process has been
+                    daemonized by start() or restart().
+                    """
+
+        run_daemon.py
+        
+            # 启动脚本,倒入需要后台启动的模块,继承Daemon类,覆盖run函数
+            # 启动方式  python run_daemon.py start
+
+            #!/usr/bin/env python
+            import Queue
+            import threading
+            import sys, time
+            import urllib2
+            import json
+            import framework
+            from moniItems import mon
+            from daemon import Daemon
+
+            class MyDaemon(Daemon):
+                def run(self):
+                    print 'start'
+                    framework.startTh()
+                    print 'stop2'
+             
+            if __name__ == "__main__":
+                daemon = MyDaemon()
+                if len(sys.argv) == 2:
+                    if 'start' == sys.argv[1]:
+                        daemon.start()
+                    elif 'stop' == sys.argv[1]:
+                        daemon.stop()
+                    elif 'restart' == sys.argv[1]:
+                        daemon.restart()
+                    else:
+                        print "Unknown command"
+                        sys.exit(2)
+                    sys.exit(0)
+                else:
+                    print "usage: %s start|stop|restart" % sys.argv[0]
+                    sys.exit(2)
+
 3 socket
 
     socket.gethostname()     # 获取主机名
@@ -2032,9 +2450,27 @@
     socket.SOCK_RDM          # 是一种可靠的UDP形式，即保证交付数据报但不保证顺序。SOCK_RAM用来提供对原始协议的低级访问，在需要执行某些特殊操作时使用，如发送ICMP报文。SOCK_RAM通常仅限于高级用户或管理员运行的程序使用。
 
     socket.SOCK_SEQPACKET    # 可靠的连续数据包服务
-    
-    select.select()          # 可配合非阻塞socket，短连接QPS可过万，但长连接由于linux系统限制最多处理连接列表1000
-    select.epoll()           # 多路复用IO接口select/poll的增强版本，提高程序在大量并发连接中只有少量活跃的情况下的系统CPU利用率，事件驱动
+
+    select          [IO多路复用的机制]
+
+        # select每次遍历都需要把fd集合从用户态拷贝到内核态,开销较大,受系统限制最大1024
+        select.select(rlist, wlist, xlist[, timeout])
+        # poll和select很像 通过一个pollfd数组向内核传递需要关注的事件,没有描述符1024限制
+        select.poll()
+        # 创建epoll句柄,注册监听事件,通过回调函数等待事件产生,不做主动扫描,整个过程对fd只做一次拷贝.打开最大文件数后,不受限制,1GB内存大约是10万链接
+        select.epoll([sizehint=-1])
+
+        select.epoll
+
+            EPOLLIN                # 监听可读事件
+            EPOLLET                # 高速边缘触发模式,即触发后不会再次触发直到新接收数据
+            EPOLLOUT               # 监听写事件
+
+            epoll.poll([timeout=-1[, maxevents=-1]]) # 等待事件,未指定超时时间[毫秒]则为一直阻塞等待
+            epoll.register(fd,EPOLLIN)               # 向epoll句柄中注册,新来socket链接,监听可读事件
+            epoll.modify(fd, EPOLLET | EPOLLOUT)     # 改变监听事件为边缘触发,监听写事件
+            epoll.fileno()                           # 通过链接对象得到fd
+            epoll.unregister(fd)                     # 取消fd监听事件
 
     SocketServer
     
@@ -2633,7 +3069,7 @@
     epoll
         https://docs.python.org/2/library/select.html    # python官网
 
-        epoll server
+        epoll短链接server
             # 原文  http://my.oschina.net/moooofly/blog/147297
             # 此代码还有改进地方，在接收数据和发送数据都是阻塞死循环处理，必须等待全部接收完毕才会继续操作
             server端代码： 
@@ -2660,8 +3096,7 @@
                      
                     logger.addHandler(fh)
                     logger.addHandler(ch)
-                         
-                         
+
                 if __name__ == "__main__":
                     InitLog()
                  
@@ -2816,10 +3251,208 @@
                  
                     connFd.close()
 
+        epoll长链接server
+            
+            server
+            
+                #!/usr/bin/python
+                #-*- coding:utf-8 -*-
+                 
+                import socket, select, logging, errno
+                import os, sys, json
+
+                def cmdRunner(input):
+                    import commands
+                    cmd_ret = commands.getstatusoutput(input)
+                    return json.dumps({'ret':cmd_ret[0], 'out':cmd_ret[1]}, separators=(',', ':'))
+
+                class _State:
+                    def __init__(self):
+                        self.state = "read"
+                        self.have_read = 0
+                        self.need_read = 10
+                        self.have_write = 0
+                        self.need_write = 0
+                        self.data = ""
+
+                __all__ = ['nbNet']
+
+                class nbNet:
+
+                    def __init__(self, host, port, logic):
+                        self.host = host
+                        self.port = port
+                        self.logic = logic
+                        self.sm = {
+                            "read":self.aread,
+                            "write":self.awrite,
+                            "process":self.aprocess,
+                            "closing":self.aclose,
+                        }
+
+                    def run(self):
+
+                        try:
+                            self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0)
+                        except socket.error, msg:
+                            print("create socket failed")
+
+                        try:
+                            self.sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+                        except socket.error, msg:
+                            print("setsocketopt SO_REUSEADDR failed")
+                     
+                        try:
+                            self.sock.bind((self.host, self.port))
+                        except socket.error, msg:
+                            print("bind failed")
+
+                        try:
+                            self.sock.listen(10)
+                        except socket.error, msg:
+                            print(msg)
+
+                        try:
+                            self.epoll_fd = select.epoll()
+                            # 向 epoll 句柄中注册 新来socket链接，监听可读事件
+                            self.epoll_fd.register(self.sock.fileno(), select.EPOLLIN )
+                        except select.error, msg:
+                            print(msg)
+
+                        self.STATE = {}
+
+                        while True:
+                            print self.STATE
+                            # epoll 等待事件回调收发数据
+                            epoll_list = self.epoll_fd.poll()
+                            for fd, events in epoll_list:
+                                if select.EPOLLHUP & events:
+                                    print 'EPOLLHUP'
+                                    self.STATE[fd][2].state = "closing"
+                                elif select.EPOLLERR & events:
+                                    print 'EPOLLERR'
+                                    self.STATE[fd][2].state = "closing"
+                                self.state_machine(fd)
+                    def state_machine(self, fd):
+                        if fd == self.sock.fileno():
+                            print "state_machine fd %s accept" % fd
+                            # fd与初始监听的fd一致,新创建一个连接
+                            conn, addr = self.sock.accept()
+                            # 设置为非阻塞
+                            conn.setblocking(0)
+                            self.STATE[conn.fileno()] = [conn, addr, _State()]
+                            # 将新建立的链接注册在epoll句柄中,监听可读事件,并设置为EPOLLET高速边缘触发,即触发后不会再次触发直到新接收数据
+                            self.epoll_fd.register(conn.fileno(), select.EPOLLET | select.EPOLLIN )
+                        else:
+                            # 否则为历史已存在的fd，调用对应的状态方法
+                            print "state_machine fd %s %s" % (fd,self.STATE[fd][2].state) 
+                            stat = self.STATE[fd][2].state
+                            self.sm[stat](fd)
+                    def aread(self, fd):
+                        try:
+                            # 接收当前fd的可读事件中的数据
+                            one_read = self.STATE[fd][0].recv(self.STATE[fd][2].need_read)
+                            if len(one_read) == 0:
+                                # 接收错误改变状态为关闭
+                                self.STATE[fd][2].state = "closing"
+                                self.state_machine(fd)
+                                return
+                            # 将历史接收的数据叠加
+                            self.STATE[fd][2].data += one_read
+                            self.STATE[fd][2].have_read += len(one_read)
+                            self.STATE[fd][2].need_read -= len(one_read)
+                            # 接收协议的10个字符
+                            if self.STATE[fd][2].have_read == 10:
+                                # 通过10个字符得知下次应该具体接收多少字节,存入状态字典中
+                                self.STATE[fd][2].need_read += int(self.STATE[fd][2].data)
+                                self.STATE[fd][2].data = ''
+                                # 调用状态机重新处理
+                                self.state_machine(fd)
+                            elif self.STATE[fd][2].need_read == 0:
+                                # 当接全部收完毕,改变状态,去执行具体服务
+                                self.STATE[fd][2].state = 'process'
+                                self.state_machine(fd)
+                        except socket.error, msg:
+                            self.STATE[fd][2].state = "closing"
+                            print(msg)
+                            self.state_machine(fd)
+                            return
+
+                    def aprocess(self, fd):
+                        # 执行具体执行方法 cmdRunner 得到符合传输协议的返回结果
+                        response = self.logic(self.STATE[fd][2].data)
+                        self.STATE[fd][2].data = "%010d%s"%(len(response), response)
+                        self.STATE[fd][2].need_write = len(self.STATE[fd][2].data)
+                        # 改变为写的状态
+                        self.STATE[fd][2].state = 'write'
+                        # 改变监听事件为写
+                        self.epoll_fd.modify(fd, select.EPOLLET | select.EPOLLOUT)
+                        self.state_machine(fd)
+
+                    def awrite(self, fd):
+                        try:
+                            last_have_send = self.STATE[fd][2].have_write
+                            # 发送返回给客户端的数据
+                            have_send = self.STATE[fd][0].send(self.STATE[fd][2].data[last_have_send:])
+                            self.STATE[fd][2].have_write += have_send
+                            self.STATE[fd][2].need_write -= have_send
+                            if self.STATE[fd][2].need_write == 0 and self.STATE[fd][2].have_write != 0:
+                                # 发送完成,重新初始化状态,并将监听写事件改回读事件
+                                self.STATE[fd][2] = _State()
+                                self.epoll_fd.modify(fd, select.EPOLLET | select.EPOLLIN)
+                        except socket.error, msg:
+                            self.STATE[fd][2].state = "closing"
+                            self.state_machine(fd)
+                            print(msg)
+                            return
+
+                    def aclose(self, fd):
+                        try:
+                            print 'Error: %s:%d' %(self.STATE[fd][1][0] ,self.STATE[fd][1][1])
+                            # 取消fd的事件监听
+                            self.epoll_fd.unregister(fd)
+                            # 关闭异常链接
+                            self.STATE[fd][0].close()
+                            # 删除fd的状态信息
+                            self.STATE.pop(fd)
+                        except:
+                            print 'Close the abnormal'
+
+                if __name__ == "__main__":
+                    HOST = '0.0.0.0'
+                    PORT = 50005
+                    nb = nbNet(HOST, PORT, cmdRunner)
+                    nb.run()
+
+            client
+            
+                #!/usr/bin/env python
+
+                import socket, sys, os
+
+                HOST = '0.0.0.0'
+                PORT = 50005
+
+                s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                s.connect((HOST, PORT))
+
+                cmd = sys.argv[1]
+                while True:
+                    s.sendall("%010d%s"%(len(cmd), cmd))
+                    print cmd
+                    count = s.recv(10)
+                    if not count:
+                        print '-----------'
+                        print count
+                        sys.exit()
+                    count = int(count)
+                    buf = s.recv(count)
+                    print buf
+
 4 mysql
     
-    #apt-get install mysql-server
-    #apt-get install python-MySQLdb
+    # yum install mysql-server
+    # yum install python-MySQLdb
     help(MySQLdb.connections.Connection)      # 查看链接参数
 
     conn=MySQLdb.connect(host='localhost',user='root',passwd='123456',db='fortress',port=3306)    # 定义连接
@@ -3442,31 +4075,6 @@
             print(tag.get('class'))      # 打印属性值
             print(i.get('href'))         # 打印连接
 
-    json
-
-        #!/usr/bin/python
-        import json
-
-        #json file temp.json
-        #{ "name":"00_sample_case1", "description":"an example."}
-
-        f = file("temp.json");
-        s = json.load(f)        # 直接读取json文件
-        print s
-        f.close
-
-        d = {"a":1}
-        j=json.dumps(d)  # 字典转json
-        json.loads(j)    # json转字典
-        
-        s = json.loads('{"name":"test", "type":{"name":"seq", "parameter":["1", "2"]}}')
-        print type(s)    # dic
-        print s
-        print s.keys()
-        print s["type"]["parameter"][1]
-        
-        json.dumps({'ret':'cmd_ret0', 'out':'cmd_ret1'}, separators=(',', ':'))    # 紧凑的json格式,去掉空格
-
     cookielib      [保留cookie登录页面]
 
         ck = cookielib.CookieJar()   # 通过 这个就可以实现请求带过去的COOKIE与发送回来的COOKIE值了。
@@ -3553,25 +4161,23 @@
         import httplib
         conn3 = httplib.HTTPConnection('www.baidu.com',80,True,10) 
 
-    aiohttp
-    
-        # http://aiohttp.readthedocs.org/en/v0.12.0/
-        需要python3.3+
-        
-        检索网页的客户端
-        
-            import aiohttp
+    aiohttp        [检索网页的客户端]
 
-            def get_body(url):
-                response = yield from aiohttp.request('GET', url)
-                return (yield from response.read())
-                
-            response = yield from aiohttp.request('GET', 'http://python.org')
-            body = yield from response.read()
-            print(body)
+        # 需要python3.3+
+        # http://aiohttp.readthedocs.org/en/v0.12.0/
+
+        import aiohttp
+
+        def get_body(url):
+            response = yield from aiohttp.request('GET', url)
+            return (yield from response.read())
             
-            # 用 asyncio 配合协程抓取页面
-            yield from asyncio.wait_for(request('GET', url), 10)
+        response = yield from aiohttp.request('GET', 'http://python.org')
+        body = yield from response.read()
+        print(body)
+        
+        # 用 asyncio 配合协程抓取页面
+        yield from asyncio.wait_for(request('GET', url), 10)
         
         http_server
         
@@ -3716,7 +4322,7 @@
 
 8 并发
 
-    #线程安全/竞争条件,锁/死锁检测,同步/异步,阻塞/非阻塞,epoll非阻塞IO,信号量/事件,线程池,生产消费模型,伪并发,微线程,协程
+    #线程安全/竞争条件,锁/死锁检测,线程池,生产消费模型,伪并发,微线程,协程
     #Stackless Python 是Python编程语言的一个增强版本，它使程序员从基于线程的编程方式中获得好处，并避免传统线程所带来的性能与复杂度问题。Stackless为 Python带来的微线程扩展，是一种低开销、轻量级的便利工具
 
     threading多线程
@@ -4257,7 +4863,7 @@
 
 9 框架
 
-    flask    [微型网络开发框架]
+    flask          [微型网络开发框架]
     
         # http://dormousehole.readthedocs.org/en/latest/
         # html放在 ./templates/   js放在 ./static/
@@ -4327,7 +4933,7 @@
             if __name__ == "__main__":
                 app.run(host="0.0.0.0", port=50000, debug=True)
 
-    twisted  [非阻塞异步服务器框架]
+    twisted        [非阻塞异步服务器框架]
 
         # 用来进行网络服务和应用程序的编程。虽然 Twisted Matrix 中有大量松散耦合的模块化组件，但该框架的中心概念还是非阻塞异步服务器这一思想。对于习惯于线程技术或分叉服务器的开发人员来说，这是一种新颖的编程风格，但它却能在繁重负载的情况下带来极高的效率。
         pip install twisted
@@ -4344,12 +4950,21 @@
         endpoints.serverFromString(reactor, "tcp:1234").listen(EchoFactory())
         reactor.run()
 
-    tornado  [极轻量级Web服务器框架] 
+    tornado        [极轻量级Web服务器框架] 
 
         # 高可伸缩性和epoll非阻塞IO,响应快速,可处理数千并发连接,特别适用用于实时的Web服务
         # http://www.tornadoweb.cn/documentation
         pip install tornado
         
+        tornado 源码分析系列目录
+
+            tornado 简介: http://www.cnblogs.com/Bozh/archive/2012/07/17/2596458.html
+            tornado 网络层IOLoop: http://www.cnblogs.com/Bozh/archive/2012/07/18/2597114.html
+            tornado 网络层IOLoop: http://www.cnblogs.com/Bozh/archive/2012/07/19/2598696.html
+            tornado Buffer层IOStream: http://www.cnblogs.com/Bozh/archive/2012/07/20/2600520.html
+            tornado HTTPServer层: http://www.cnblogs.com/Bozh/archive/2012/07/22/2603963.html
+            tornado HTTPServer详解: http://www.cnblogs.com/Bozh/archive/2012/07/24/2606765.html
+
         import tornado.ioloop
         import tornado.web
 
@@ -4365,7 +4980,7 @@
             application.listen(8888)
             tornado.ioloop.IOLoop.instance().start()
 
-    Scrapy   [web抓取框架]
+    Scrapy         [web抓取框架]
         # Python开发的一个快速,高层次的屏幕抓取和web抓取框架，用于抓取web站点并从页面中提取结构化的数据。Scrapy用途广泛，可以用于数据挖掘、监测和自动化测试。
         pip install scrapy
         
@@ -4382,16 +4997,16 @@
                 
         scrapy runspider myspider.py
 
-    django   [重量级web框架]
+    django         [重量级web框架]
 
-    bottle   [轻量级的Web框架]
+    bottle         [轻量级的Web框架]
 
-    greenlet [微线程/协程框架]
+    greenlet       [微线程/协程框架]
 
         # 更加原始的微线程的概念,没有调度,或者叫做协程。这在你需要控制你的代码时很有用。你可以自己构造微线程的 调度器；也可以使用"greenlet"实现高级的控制流。例如可以重新创建构造器；不同于Python的构造器，我们的构造器可以嵌套的调用函数，而被嵌套的函数也可以 yield 一个值。
         pip install greenlet
 
-    gevent   [轻量级协程]
+    gevent         [轻量级协程]
         # 在gevent中用到的主要模式是Greenlet, 它是以C扩展模块形式接入Python的轻量级协程。 Greenlet全部运行在主程序操作系统进程的内部，但它们被协作式地调度。
         # http://xlambda.com/gevent-tutorial/
         
@@ -4410,40 +5025,13 @@
             gevent.spawn(bar),
         ])
 
-    asyncio  [异步I/O协同]
+    asyncio        [异步I/O协同]
 
         # https://docs.python.org/3/library/asyncio.html
         需要python3.4+
         asyncio: 协同程序和事件循环。协同程序像是方法，但是它们可以在代码中的特定点暂停和继续。当在等待一个IO（比如一个HTTP请求），同时执行另一个请求的时候，可以用来暂停一个协同程序。我们使用关键字yield from来设定一个状态，表明我们需要一个协同程序的返回值。而事件循环则被用来安排协同程序的执行。
 
-关于asyncio还有很多很多，但是以上是我们到目前为止需要知道的。可能你还有些不清楚，那么让我们来看一些代码吧。
-
-10 例子
-
-    取参数
-    
-        import sys,os
-        import getopt
-
-
-        try:
-            options,argsErr = getopt.getopt(sys.argv[1:],"hu:c:",["help","user=","cmd="])    # 中间短参数，后面长参数对应. 不带:或=代表不带参数
-        except getopt.GetoptError:
-            print "Unknown parameters,More info with: %s -h" %(sys.argv[0])
-            sys.exit(2)
-        if argsErr != []:
-            print "Unknown parameters,More info with: %s -h" %(sys.argv[0])
-            sys.exit(2)
-
-        for o,a in  options:
-            if o in ("-h","--help"):
-                print '''Usage: python te.py -u user -c "cmd -options" '''
-                sys.exit(2)
-            if o in ("-u","--user"):
-                user = a
-            if o in ("-c","--cmd"):
-                cmd = a
-        print user,cmd
+10例子
 
     小算法
 
@@ -4594,7 +5182,7 @@
     
         a={'version01': {'nba': {'timenba': 'valuesasdfasdf', 'nbanbac': 'vtimefasdf', 'userasdf': 'vtimasdf'}}}
         eval(str(a).replace("time",""))
-        
+
     PIL图像处理
 
         import Image
