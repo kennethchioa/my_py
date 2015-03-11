@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 #-*- coding: UTF-8 -*-
 import threading, time, socket, optparse, sys, string
 
