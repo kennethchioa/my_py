@@ -20,7 +20,7 @@ import subprocess
 APP_HOME = '/home/hsod/'
 
 PROCESS_ORDER = { 
-        'dbgate50000'    : 1,
+    'dbgate50000'    : 1,
 	'dbgate51000'    : 2, 
 	'nodeserver'     : 3,
 	'chatserver'     : 4,
