@@ -68,15 +68,12 @@ def get_platform( plt ):
 def remote_run(ip,zone,mxmshell):
 	username = 'root'
 	port = 10090
-	## password = 'guaiwu_Yunwei;{}' + ip.split('.')[3]
 	keyfile = '/root/.ssh/id_rsa'
 	key = paramiko.RSAKey.from_private_key_file(keyfile)
 	ssh = paramiko.SSHClient()
 	ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 	ssh.connect(hostname = ip,port = port,username = username,pkey = key)
 	stdin,stdout,stderr = ssh.exec_command("cd /mxm/mxm%s/bin;./%s" % (zone,mxmshell))
-	## stdin,stdout,stderr = ssh.exec_command("cd /mxm/mxm%s/bin;ls" % (zone))
-	##print stdout.read()
 	ssh.close()
 
 def check_update_patch_list():

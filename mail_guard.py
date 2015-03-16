@@ -26,7 +26,7 @@ def send_mail(sub,content):
 #设置服务器，用户名、口令以及邮箱的后缀
     mail_host="smtp.163.com"
     mail_user="mtj_alert"
-    mail_pass="FangCun#14MTJ"
+    mail_pass="xxxxxxxxxxxxx"
     mail_postfix="163.com"
 ######################
     '''

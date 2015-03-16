@@ -38,15 +38,12 @@ def get_all_zoneid_and_ip(xml_file):
 def online_run(zone_ip,zone_id,shell):
     username = 'root'
     port = 10090
-	## password = 'guaiwu_Yunwei;{}' + ip.split('.')[3]
     keyfile = '/root/.ssh/id_rsa'
     key = paramiko.RSAKey.from_private_key_file(keyfile)
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     ssh.connect(hostname = zone_ip,port = port,username = username,pkey = key)
     stdin,stdout,stderr = ssh.exec_command(shell)
-#	stdin,stdout,stderr = ssh.exec_command("cd /mxm/mxm%s/bin;sh %s" % (zone_id,shell))
-	## stdin,stdout,stderr = ssh.exec_command("cd /mxm/mxm%s/bin;ls" % (zone_id))
     print  stdout.read()
     ssh.close()
 

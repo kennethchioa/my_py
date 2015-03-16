@@ -29,7 +29,6 @@ def select_status(status):
 def remote_run(ip,zone,mxmshell):
 	username = 'root'
 	port = 10090
-	## password = 'guaiwu_Yunwei;{}' + ip.split('.')[3]
 	keyfile = '/root/.ssh/id_rsa'
 	key = paramiko.RSAKey.from_private_key_file(keyfile)
 	ssh = paramiko.SSHClient()
