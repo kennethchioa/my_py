@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# machine_status.py  »ñÈ¡±¾»ú×ÊÔ´Ê¹ÓÃĞÅÏ¢¡¢½ø³Ì×´Ì¬ºÍÁ¬½ÓÇé¿ö
+# machine_status.py  è·å–æœ¬æœºèµ„æºä½¿ç”¨ä¿¡æ¯ã€è¿›ç¨‹çŠ¶æ€å’Œè¿æ¥æƒ…å†µ
 # created by vince67 (nuovince@gmail.com)
 # May 2014
  
  
 import datetime
 import os
-import psutil as ps                       # psutil¿â ĞèÔ¤ÏÈ°²×°
+import psutil as ps                       # psutilåº“ éœ€é¢„å…ˆå®‰è£…
 from pymongo import Connection
 import time
 import socket
@@ -16,7 +16,7 @@ import uuid
  
 class MachineStatus(object):
  
-    #   ³õÊ¼»¯
+    #   åˆå§‹åŒ–
     def __init__(self):
         self.MAC = None
         self.IP = None
@@ -24,11 +24,11 @@ class MachineStatus(object):
         self.mem = {}
         self.process = {}
         self.network = {}
-        self.status = []                    #  [cpuÊ¹ÓÃÂÊ£¬ ÄÚ´æÊ¹ÓÃÂÊ£¬ ½ø³ÌÊıÄ¿£¬ establishedÁ¬½ÓÊı]
+        self.status = []                    #  [cpuä½¿ç”¨ç‡ï¼Œ å†…å­˜ä½¿ç”¨ç‡ï¼Œ è¿›ç¨‹æ•°ç›®ï¼Œ establishedè¿æ¥æ•°]
         self.get_init_info()
         self.get_status_info()
  
-    #  ËŞÖ÷»ú´æ¿â×´Ì¬
+    #  å®¿ä¸»æœºå­˜åº“çŠ¶æ€
     def run(self):
         self.get_status_info()
         self.save_status_to_db()
@@ -36,32 +36,32 @@ class MachineStatus(object):
     def save_status_to_db(self):
         print self.status
  
-    #  Êı¾İÊÕ¼¯
+    #  æ•°æ®æ”¶é›†
     def get_init_info(self):
-        self.cpu = {'cores' : 0,            #  cpuÂß¼­ºËÊı
-                    'percent' : 0,          #  cpuÊ¹ÓÃÂÊ
-                    'system_time' : 0,      #  ÄÚºËÌ¬ÏµÍ³Ê±¼ä
-                    'user_time' : 0,        #  ÓÃ»§Ì¬Ê±¼ä
-                    'idle_time' : 0,        #  ¿ÕÏĞÊ±¼ä
-                    'nice_time' : 0,        #  niceÊ±¼ä (»¨·ÑÔÚµ÷Õû½ø³ÌÓÅÏÈ¼¶ÉÏµÄÊ±¼ä)
-                    'softirq' : 0,          #  Èí¼şÖĞ¶ÏÊ±¼ä
-                    'irq' : 0,              #  ÖĞ¶ÏÊ±¼ä
-                    'iowait' : 0}           #  IOµÈ´ıÊ±¼ä
+        self.cpu = {'cores' : 0,            #  cpué€»è¾‘æ ¸æ•°
+                    'percent' : 0,          #  cpuä½¿ç”¨ç‡
+                    'system_time' : 0,      #  å†…æ ¸æ€ç³»ç»Ÿæ—¶é—´
+                    'user_time' : 0,        #  ç”¨æˆ·æ€æ—¶é—´
+                    'idle_time' : 0,        #  ç©ºé—²æ—¶é—´
+                    'nice_time' : 0,        #  niceæ—¶é—´ (èŠ±è´¹åœ¨è°ƒæ•´è¿›ç¨‹ä¼˜å…ˆçº§ä¸Šçš„æ—¶é—´)
+                    'softirq' : 0,          #  è½¯ä»¶ä¸­æ–­æ—¶é—´
+                    'irq' : 0,              #  ä¸­æ–­æ—¶é—´
+                    'iowait' : 0}           #  IOç­‰å¾…æ—¶é—´
         self.mem = {'percent' : 0,
                     'total' : 0,
                     'vailable' : 0,
                     'used' : 0,
                     'free' : 0,
                     'active' : 0}
-        self.process = {'count' : 0,        #  ½ø³ÌÊıÄ¿
-                        'pids' : 0}         #  ½ø³ÌÊ¶±ğºÅ
-        self.network = {'count' : 0,        #  Á¬½Ó×ÜÊı
-                        'established' : 0}  #  establishedÁ¬½ÓÊı
-        self.status = [0, 0, 0, 0]          #  cpuÊ¹ÓÃÂÊ£¬ÄÚ´æÊ¹ÓÃÂÊ£¬ ½ø³ÌÊı£¬ establishedÁ¬½ÓÊı
+        self.process = {'count' : 0,        #  è¿›ç¨‹æ•°ç›®
+                        'pids' : 0}         #  è¿›ç¨‹è¯†åˆ«å·
+        self.network = {'count' : 0,        #  è¿æ¥æ€»æ•°
+                        'established' : 0}  #  establishedè¿æ¥æ•°
+        self.status = [0, 0, 0, 0]          #  cpuä½¿ç”¨ç‡ï¼Œå†…å­˜ä½¿ç”¨ç‡ï¼Œ è¿›ç¨‹æ•°ï¼Œ establishedè¿æ¥æ•°
         self.get_mac_address()
         self.get_ip_address()
  
-    #  »ñÈ¡×´Ì¬ÁĞ±í
+    #  è·å–çŠ¶æ€åˆ—è¡¨
     def get_status_info(self):
         self.get_cpu_info()
         self.get_mem_info()
@@ -72,12 +72,12 @@ class MachineStatus(object):
         self.status[2] = self.process['count']
         self.status[3] = self.network['established']
  
-    #  »ñÈ¡mac
+    #  è·å–mac
     def get_mac_address(self):
         mac = uuid.UUID(int=uuid.getnode()).hex[-12:]
         self.MAC = ":".join([mac[e : e+2] for e in range(0, 11, 2)])
  
-    #  »ñÈ¡ip
+    #  è·å–ip
     def get_ip_address(self):
         tempSock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         tempSock.connect(('8.8.8.8', 80))
@@ -85,7 +85,7 @@ class MachineStatus(object):
         tempSock.close()
         self.IP = addr
  
-    #  »ñµÃcpuĞÅÏ¢
+    #  è·å¾—cpuä¿¡æ¯
     def get_cpu_info(self):
         self.cpu['cores'] = ps.cpu_count()
         self.cpu['percent'] = ps.cpu_percent(interval=2)
@@ -98,7 +98,7 @@ class MachineStatus(object):
         self.cpu['irq'] = cpu_times.irq
         self.cpu['iowait'] = cpu_times.iowait
  
-    #  »ñµÃmemoryĞÅÏ¢
+    #  è·å¾—memoryä¿¡æ¯
     def get_mem_info(self):
         mem_info = ps.virtual_memory()
         self.mem['percent'] = mem_info.percent
@@ -108,13 +108,13 @@ class MachineStatus(object):
         self.mem['free'] = mem_info.free
         self.mem['active'] = mem_info.active
  
-    #  »ñÈ¡½ø³ÌĞÅÏ¢
+    #  è·å–è¿›ç¨‹ä¿¡æ¯
     def get_process_info(self):
        pids = ps.pids()
        self.process['pids'] = pids
        self.process['count'] = len(pids)
  
-    #  »ñÈ¡ÍøÂçÊı¾İ
+    #  è·å–ç½‘ç»œæ•°æ®
     def get_network_info(self):
         conns = ps.net_connections()
         self.network['count'] = len(conns)
