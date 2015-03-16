@@ -24,7 +24,7 @@ def select_xml(plt):
 
     return  xml_file
 
-def get_All_ZoneID_and_IP(xml_file):
+def get_all_zoneid_and_ip(xml_file):
     resDict = {}
     dom = xml.dom.minidom.parse(xml_file)
     root = dom.documentElement
@@ -52,7 +52,7 @@ def online_run(zone_ip,zone_id,shell):
 
 def plantform_run(plt):
     xml_file = select_xml(plt)
-    all_list = get_All_ZoneID_and_IP(xml_file)
+    all_list = get_all_zoneid_and_ip(xml_file)
     for zone in all_list.keys():
         print  "Platform:%s" % plt.upper() + " " + "IP:" +  str(all_list[zone])  + " " +  "ZONE:" + str(zone)
         check_version_shell = 'echo "Current Version is:`cat /mxm/mxm%s/server_patch/new_server_patch_packet/update_patch_list`"' % zone
@@ -60,7 +60,7 @@ def plantform_run(plt):
 
 #def run(plt):
 #    xml_file = select_xml(plt)
-#    all_list = get_All_ZoneID_and_IP(xml_file)
+#    all_list = get_all_zoneid_and_ip(xml_file)
 #    for zone in all_list.keys():
 #        conn = "ssh -p10090 %s \"" % all_list[zone]
 ##       run_cmd = "cat /mxm/mxm%s/server_patch/new_server_patch_packet/update_patch_list \""   %  zone

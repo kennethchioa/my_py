@@ -41,7 +41,7 @@ def select_xml(plt):
 
     return  xml_file
 
-def get_All_ZoneID_and_IP(xml_file):
+def get_all_zoneid_and_ip(xml_file):
     resDict = {}
     dom = xml.dom.minidom.parse(xml_file)
     root = dom.documentElement
@@ -55,7 +55,7 @@ def get_All_ZoneID_and_IP(xml_file):
 
 def auto_split(plt):
     xml_file = select_xml(plt)
-    split_dict = get_All_ZoneID_and_IP(xml_file)
+    split_dict = get_all_zoneid_and_ip(xml_file)
     return split_dict
 
 def remote_run(zone_ip,zone_id,shell):
