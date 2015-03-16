@@ -63,7 +63,7 @@ def start_hsod(app_home,process_order):
 	                    if retcode < 0:
                                 print >>sys.stderr, "Child Process % was terminated by signal" % proc ,  -retcode
 		            else:
-                                print >>sys.stderr, "Child Process %s returned" % proc , retcode
+                                print >>sys.stdout, "Child Process %s sccessful returned" % proc , retcode
 		                print "Sleep 5 Seconds......"
                                 time.sleep(5)
 	                except OSError, e:
